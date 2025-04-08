@@ -15,17 +15,35 @@ async function deleteItem(userCart, nameItem){
     }
 }
 
-// remover um item (diminuir a quantidade de itens de um item)
-async function removeItem(userCart, indexItem){
-    // transforma o indice visual do usuario para o índice de backend
-    const deleteIndex = indexItem - 1
+// ✅ remover um item (diminuir a quantidade de itens de um item)
+async function removeItem(userCart, item){
+    // // transforma o indice visual do usuario para o índice de backend
+    // const deleteIndex = indexItem - 1
 
-    // é maior que zero e se é menor que do que o tamanho do carrinho
-    if (deleteIndex >= 0 && deleteIndex < userCart.length){
-        userCart.splice(deleteIndex, 1)
+    // // é maior que zero e se é menor que do que o tamanho do carrinho
+    // if (deleteIndex >= 0 && deleteIndex < userCart.length){
+    //     userCart.splice(deleteIndex, 1)
+    // }
+    const indexFound = userCart.findIndex((produto) => produto.name === item.name)
+    
+    // 2. Caso não encontre o item
+    if (indexFound === -1){
+        console.log("Item não encontrado");
+        return 
+    }
+
+    // 3. Item > 1 subtrair um item
+    if (userCart[indexFound].quantity > 1){
+        userCart[indexFound].quantity -= 1
+        return
+    }
+
+    // 4. Caso item = 1, deletar o item
+    if (userCart[indexFound].quantity == 1){
+        userCart.splice(indexFound, 1)
+        return
     }
 }
-
 
 // calcular total
 async function calcularTotal(userCart){
